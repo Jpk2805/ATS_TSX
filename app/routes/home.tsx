@@ -4,8 +4,10 @@ import type { Route } from "./+types/home";
 // For example, if it's in a local file 'app/constants.ts', use:
 import { resumes } from "../../constants/index";
 // Or update the path as needed to match your project structure.
-import type { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
+import { type ReactElement, type JSXElementConstructor, type ReactNode, type ReactPortal, useEffect } from "react";
 import ResumeCard from "~/components/ResumeCard";
+import { usePuterStore } from "~/lib/puter";
+import { useNavigate } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,6 +17,13 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+
+  const { auth } = usePuterStore();
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(!auth.isAuthenticated) navigate('/auth?next=/');
+  }, [auth.isAuthenticated])
   return (
     <main className= "bg-[url('/images/bg-main.svg')]">
       <Navbar />
