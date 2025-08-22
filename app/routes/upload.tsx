@@ -62,7 +62,7 @@ const Upload = () => {
 
     await kv.set(`resume_${uuid}`, JSON.stringify(data));
 
-    setStatusText('analysing ')
+    setStatusText('analysing....')
 
     const feedback = await ai.feedback(
         uploadedFile.path,
@@ -80,10 +80,11 @@ const Upload = () => {
 
     await kv.set(`resume_${uuid}`, JSON.stringify(data));
 
-    setStatusText("Analysis complete.");
+    setStatusText("Analysis complete, Redirecting...");
 
     console.log("Resume data:", data);
-    setIsProcessing(false);
+
+    navigate(`/resume/${uuid}`);
   }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -112,10 +113,10 @@ const Upload = () => {
       <Navbar />
       <section className="main-section">
         <div className = 'page-heading py-16' >
-          <h1>Smart Feedback from your dream Job.</h1>
+          <h2>Smart Feedback from your dream Job.</h2>
           {isProcessing ? (
             <>
-                <h2>{statusText}</h2>
+                <h3>{statusText}</h3>
                 <img src="/images/resume-scan.gif" className= "w-full" alt="Loading..." />
             </>
           ) : (
